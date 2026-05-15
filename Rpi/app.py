@@ -1,7 +1,10 @@
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, session
 import sqlite3
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
+
+app.secret_key = "SECURACCES_SECRET"
 
 API_TOKEN = "SECURACCES_CIEL_E6"
 
@@ -22,9 +25,36 @@ def api_access():
 
     return jsonify({"access": result})
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        conn = sqlite3.connect("id_utilisateurs.db")
+        cursor = conn.cursor()
+        bcrypt = Bcrypt()
+        cursor.execute("SELECT * FROM admins WHERE username=?",(username,))
+        admin = cursor.fetchone()
+
+        conn.close()
+
+        if admin:
+            hash_password = admin[2]
+            if bcrypt.check_password_hash(hash_password, password):
+                session["admin"] = username
+                return redirect("/dashboard")
+
+    return render_template("login.html")
+
+
 # accès autorisé seulement si admin connecté
 @app.route("/dashboard")
 def dashboard():
+    if "admin" not in session:
+        return redirect("/login")
+
     conn = sqlite3.connect('id_utilisateurs.db')
     cursor = conn.cursor()
     cursor.execute("SELECT uid, resultat, date FROM journaux_acces")

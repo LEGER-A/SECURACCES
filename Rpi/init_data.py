@@ -42,11 +42,11 @@ cursor.executemany('INSERT INTO cartes_rfid (uid) VALUES (?)', cartes)
 
 ## Creation des donnees admins   
 bcrypt = Bcrypt()
-users = [
+admins = [
     ('antoine', bcrypt.generate_password_hash('1234')),
     ('toto', bcrypt.generate_password_hash('4567'))
 ]
-cursor.executemany('INSERT INTO admins (username, password) VALUES (?, ?)', users)
+cursor.executemany('INSERT INTO admins (username, password) VALUES (?, ?)', admins)
 
 ## Commit the changes to the database
 conn.commit()
