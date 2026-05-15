@@ -48,6 +48,11 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+
+    session.clear()
+    return redirect("/login")
 
 # accès autorisé seulement si admin connecté
 @app.route("/dashboard")
