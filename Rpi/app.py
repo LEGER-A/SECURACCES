@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import sqlite3
 
 app = Flask(__name__)
@@ -21,6 +21,18 @@ def api_access():
     result = check_uid(uid)
 
     return jsonify({"access": result})
+
+# accès autorisé seulement si admin connecté
+@app.route("/dashboard")
+def dashboard():
+    conn = sqlite3.connect('id_utilisateurs.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT uid, resultat, date FROM journaux_acces")
+    access = cursor.fetchall()
+    print(access)
+    conn.close()
+
+    return render_template("dashboard.html", journaux=access)
 
 def check_uid(uid):
 

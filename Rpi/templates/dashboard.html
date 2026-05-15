@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de bord SECURACCES</title>
+</head>
+<body>
+
+    <h1>Tableau de bord SECURACCES</h1>
+
+    <h2>Derniers accès</h2>
+
+    <table border="1">
+        <tr>
+            <th>UID</th>
+            <th>Résultat</th>
+            <th>Date / Heure</th>
+        </tr>
+
+        {% for acces in journaux %}
+        <tr>
+            <td>{{ acces[0] }}</td>
+            <td>{{ acces[1] }}</td>
+            <td>{{ acces[2] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
