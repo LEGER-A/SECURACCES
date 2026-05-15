@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 import sqlite3
 
 app = Flask(__name__)
@@ -34,6 +34,17 @@ def dashboard():
 
     return render_template("dashboard.html", journaux=access)
 
+@app.route("/add_card", methods=["POST"])
+def add_card():
+    uid = request.form.get("uid")
+    conn = sqlite3.connect("id_utilisateurs.db")
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO cartes_rfid(uid) VALUES (?)",(uid,))
+    conn.commit()
+    conn.close()
+
+    return redirect("/dashboard")
+    
 def check_uid(uid):
 
     ## Connection a la base sqlite3

@@ -25,5 +25,12 @@
         </tr>
         {% endfor %}
     </table>
+
+    <h2>Ajouter une carte RFID</h2>
+
+    <form method="POST" action="/add_card">
+        <input type="text" name="uid" placeholder="UID de la carte" required>
+        <button type="submit">Ajouter</button>
+    </form>
 </body>
 </html>
