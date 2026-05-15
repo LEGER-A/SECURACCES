@@ -29,10 +29,11 @@ def dashboard():
     cursor = conn.cursor()
     cursor.execute("SELECT uid, resultat, date FROM journaux_acces")
     access = cursor.fetchall()
-    print(access)
+    cursor.execute("SELECT uid FROM cartes_rfid")
+    cartes_rfid = cursor.fetchall()
     conn.close()
 
-    return render_template("dashboard.html", journaux=access)
+    return render_template("dashboard.html", journaux=access, cartes=cartes_rfid)
 
 @app.route("/add_card", methods=["POST"])
 def add_card():

@@ -26,6 +26,19 @@
         {% endfor %}
     </table>
 
+    <h2>Cartes autorisées</h2>
+
+    <table border="1">
+        <tr>
+            <th>UID</th>
+        </tr>
+        {% for carte in cartes %}
+        <tr>
+            <td>{{ carte[0] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
     <h2>Ajouter une carte RFID</h2>
 
     <form method="POST" action="/add_card">
