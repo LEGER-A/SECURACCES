@@ -8,9 +8,9 @@ conn = sqlite3.connect('id_utilisateurs.db')
 cursor = conn.cursor()
 
 ## Suppression des tables   
-cursor.execute("DROP TABLE cartes_rfid")
-cursor.execute("DROP TABLE journaux_acces")
-cursor.execute("DROP TABLE admins")
+cursor.execute("DROP TABLE IF EXISTS cartes_rfid")
+cursor.execute("DROP TABLE IF EXISTS journaux_acces")
+cursor.execute("DROP TABLE IF EXISTS admins")
 
 ## Creation des tables "carte_rfid" et "admins" "journaux_acces"
 cursor.execute("""CREATE TABLE cartes_rfid (
