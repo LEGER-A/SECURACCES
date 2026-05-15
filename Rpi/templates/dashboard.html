@@ -32,6 +32,7 @@
         <tr>
             <th>UID</th>
         </tr>
+
         {% for carte in cartes %}
         <tr>
             <td>{{ carte[0] }}</td>
@@ -45,5 +46,13 @@
         <input type="text" name="uid" placeholder="UID de la carte" required>
         <button type="submit">Ajouter</button>
     </form>
+
+    <h2>Supprimer une carte RFID</h2>
+
+    <form method="POST" action="/delete_card">
+        <input type="text" name="uid" placeholder="UID de la carte" required>
+        <button type="submit">Supprimer</button>
+    </form>
+
 </body>
 </html>

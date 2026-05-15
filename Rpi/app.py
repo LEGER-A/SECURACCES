@@ -41,11 +41,24 @@ def add_card():
     conn = sqlite3.connect("id_utilisateurs.db")
     cursor = conn.cursor()
     cursor.execute("INSERT INTO cartes_rfid(uid) VALUES (?)",(uid,))
+
     conn.commit()
     conn.close()
 
     return redirect("/dashboard")
-    
+
+@app.route("/delete_card", methods=["POST"])
+def delete_card():
+    uid = request.form.get("uid")
+    conn = sqlite3.connect("id_utilisateurs.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM cartes_rfid WHERE uid=?",(uid,))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/dashboard")
+
 def check_uid(uid):
 
     ## Connection a la base sqlite3
@@ -55,8 +68,7 @@ def check_uid(uid):
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM cartes_rfid WHERE uid=?",
-        (uid,)
+        "SELECT * FROM cartes_rfid WHERE uid=?",(uid,)
     )
 
     card = cursor.fetchone()
