@@ -87,6 +87,9 @@ def dashboard():
 
 @app.route("/add_card", methods=["POST"])
 def add_card():
+    if "admin" not in session:
+        return redirect("/login")
+
     uid = request.form.get("uid")
     conn = sqlite3.connect("id_utilisateurs.db")
     cursor = conn.cursor()
@@ -99,6 +102,9 @@ def add_card():
 
 @app.route("/delete_card", methods=["POST"])
 def delete_card():
+    if "admin" not in session:
+        return redirect("/login")
+
     uid = request.form.get("uid")
     conn = sqlite3.connect("id_utilisateurs.db")
     cursor = conn.cursor()
