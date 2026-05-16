@@ -11,36 +11,50 @@ Le projet SECURACCES consiste à concevoir et réaliser un système de contrôle
 ### Étapes de déploiement du projets
 
 *Étape 1 
-	- Installation de l'os sur la Raspberry. Le SSH par clés est réalisé lors de l'installation. 
-	- Mise a jour des paquets et instalation des dépendences python. (python3-pip/python3-venv).
-	- Mise en place d'un clone du dépot github "SECURACCES".
+- Installation de l'os sur la Raspberry. Le SSH par clés est réalisé lors de l'installation. 
+- Mise a jour des paquets et instalation des dépendences python. (python3-pip/python3-venv).
+- Mise en place d'un clone du dépot github "SECURACCES".
 
 *Étape 2 
-	- Étude de la partie physique du projet (RadioFrequencyIDentification).
-	- Réalisation de test sur la mesure de porté entre le lecteur et les cartes RFID.
-	- Rédaction de cette partie dans le rapport.
+- Étude de la partie physique du projet (RadioFrequencyIDentification).
+- Réalisation de test sur la mesure de porté entre le lecteur et les cartes RFID.
+- Rédaction de cette partie dans le rapport.
 
 *Étape 3
-	- Analyse des diagrammes UML et SYSML du projet SECURACCES.
-	- Documentation de l'analyse dans le rapport de projet.
+- Analyse des diagrammes UML et SYSML du projet SECURACCES.
+- Documentation de l'analyse dans le rapport de projet.
 
 *Étape 4
-	- Élaboration et test du script UID sur l'IDE Arduino, disponible sur Github.
-	- Documentation dans le rapport de projet.
-	- Test des actionneurs et des LEDS avec un script test des LEDS et BUZZER, disponible sur Github.
-	- Analyse et explication dans le rapport de projet.
+- Élaboration et test du script UID sur l'IDE Arduino, disponible sur Github.
+- Documentation dans le rapport de projet.
+- Test des actionneurs et des LEDS avec un script test des LEDS et BUZZER, disponible sur Github.
+- Analyse et explication dans le rapport de projet.
 
 *Étape 5
-	- Installation et configuration de UFW sur le Rasberry. Les ports 22/80/500 sont ouvert, le reste est bloqué.
-	- Mise en place d'un programme phython pour recevoir les requêtes sur le Raspberry. Fichier app.py.
-	- Connection de ESP32 au réseau Wi-Fi avec le script wifi_http.
-	- Mise en place de l'API REST avec le token bearer, la gestion des erreurs et le delai anti-rebond. Script Wifi_http_token_gestion-erreurs_anti-rebond.
-	- Capture du trafic HTTP avec tcpdump.
-	- Détails des procédures et analyse dans le rapport.
+- Installation et configuration de UFW sur le Rasberry. Les ports 22/80/500 sont ouvert, le reste est bloqué.
+- Mise en place d'un programme phython pour recevoir les requêtes sur le Raspberry. Fichier app.py.
+- Connection de ESP32 au réseau Wi-Fi avec le script wifi_http.
+- Mise en place de l'API REST avec le token bearer, la gestion des erreurs et le delai anti-rebond. Script Wifi_http_token_gestion-erreurs_anti-rebond.
+- Capture du trafic HTTP avec tcpdump.
+- Détails des procédures et analyse dans le rapport.
+
+*Étape 6
+- Création de la base de données SQlite : tables carte_rfid, admins, journaux_acces.
+- Hachage des mots de passe avec bcrypt.
+- Écriture et test des scripts test.py avec pytest.
+- Détails des procédures et analyse dans le rapport.
+
+*Étape 7
+- Développement de la page login admin et dashboard.
+- Détails des procédures et analyse dans le rapport.
+
+*Étape 8
+- Instalation de la procédure sur le Rasberry Pi
+- Ci-dessous la procédure:
 
 # Procédure d’installation sur Raspberry Pi
 
-## 1 — Clonage du dépôt GitHub
+## 1) Clonage du dépôt GitHub
 
 ```bash
 git clone https://github.com/LEGER-A/SECURACCES.git
@@ -52,7 +66,7 @@ cd SECURACCES/Rpi
 
 ---
 
-# 2 — Création de l’environnement virtuel Python
+## 2) Création de l’environnement virtuel Python
 
 Création du `venv` :
 
@@ -74,7 +88,7 @@ Le terminal doit afficher :
 
 ---
 
-# 3 — Installation des dépendances Python
+## 3) Installation des dépendances Python
 
 Installation des bibliothèques nécessaires :
 
@@ -91,7 +105,7 @@ Exemple de dépendances installées :
 
 ---
 
-# 4 — Initialisation de la base de données SQLite
+## 4) Initialisation de la base de données SQLite
 
 Exécution du script de création de la base :
 
@@ -108,23 +122,7 @@ Ce script crée automatiquement :
 
 ---
 
-# 5 — Lancement manuel du serveur Flask
-
-Démarrage du serveur :
-
-```bash
-python app.py
-```
-
-Le serveur Flask démarre alors sur :
-
-```text
-http://192.168.1.45:5000
-```
-
----
-
-# 6 — Mise en place du service systemd
+## 5) Mise en place du service systemd
 
 Création du service :
 
@@ -149,7 +147,7 @@ WantedBy=multi-user.target
 
 ---
 
-# 7 — Activation du service
+## 6) Activation du service
 
 Rechargement des services :
 
@@ -171,7 +169,7 @@ sudo systemctl start securacces
 
 ---
 
-# 8 — Vérification du fonctionnement
+## 7) Vérification du fonctionnement
 
 Vérification de l’état du service :
 
@@ -187,7 +185,7 @@ active (running)
 
 ---
 
-# 9 — Test de l’API Flask
+## 8) Test de l’API Flask
 
 Depuis un navigateur ou un autre équipement du réseau :
 
@@ -196,3 +194,11 @@ http://192.168.1.45:5000
 ```
 
 L’API Flask est alors prête à recevoir les requêtes HTTP envoyées par l’ESP32.
+
+## 9) Commande pour générer les requêtes
+
+Depuis un terminal :
+
+```text
+Invoke-RestMethod -Method POST -Uri "http://192.168.1.45:5000/api/access" -Headers @{ "Authorization" = "Bearer SECURACCES_CIEL_E6" } -ContentType "application/json" -Body '{"uid": "uid1"}'
+```
