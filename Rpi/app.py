@@ -48,6 +48,21 @@ def login():
 
     return render_template("login.html")
 
+@app.route("/purge_logs")
+def purge_logs():
+
+    if "admin" not in session:
+        return redirect("/login")
+
+    conn = sqlite3.connect("id_utilisateurs.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM journaux_acces")
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/dashboard")
+
 @app.route("/logout")
 def logout():
 
