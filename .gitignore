@@ -1,3 +1,5 @@
 venv
 .vs
 id_utilisateurs.db
+.pytest_cache
+__pycache__

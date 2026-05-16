@@ -117,9 +117,7 @@ def check_uid(uid):
     ## Creation d'un curseur
     cursor = conn.cursor()
 
-    cursor.execute(
-        "SELECT * FROM cartes_rfid WHERE uid=?",(uid,)
-    )
+    cursor.execute("SELECT * FROM cartes_rfid WHERE uid=?",(uid,))
 
     card = cursor.fetchone()
 
@@ -128,16 +126,12 @@ def check_uid(uid):
     else:
         result = "deny"
 
-    cursor.execute(
-        "INSERT INTO journaux_acces(uid, resultat) VALUES (?,?)",
-        (uid, result)
-    )
+    cursor.execute("INSERT INTO journaux_acces(uid, resultat) VALUES (?,?)",(uid, result))
 
     conn.commit()
     conn.close()
 
     return result
     
-
-
-app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
